@@ -50,10 +50,10 @@ function setupTour() {
 
   tour.addStep({
     id: 'tour-step-2',
-    text: 'Scroll to things millenials feel positively and negatively about',
+    text: 'Scroll to things millenials feel 👍 and 👎 about',
     attachTo: {
       element: '.button-container',
-      on: 'right',
+      on: 'bottom',
     },
     classes: 'example-step-extra-class',
     buttons: [

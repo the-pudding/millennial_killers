@@ -5,6 +5,11 @@
     display: flex;
     flex-direction: row;
     height 100%
+    @media (max-width: 550px)
+        margin 0rem 0rem 0rem 0rem
+        padding 1rem 1rem 3rem 0rem
+        display: block;
+        
 
     &__sidebar        
         height 100%
@@ -24,7 +29,7 @@
     stroke: #fff;
     width: 60%;
     height: 60%;
-    transform: rotate(90deg) 
+    transform: rotate(90deg)
 
     &__container
         position: absolute;
@@ -43,11 +48,18 @@
         -ms-flex-align: center;
         align-items: center;
         cursor pointer
+        @media (max-width: 550px)
+            display none 
 
 .byline-container
     position absolute
     bottom 1rem
     left 4rem
+    @media (max-width: 550px)
+        position relative
+        margin-top 5rem
+        left 0
+        padding-left 3rem
 
 
 .byline    
@@ -57,20 +69,25 @@
 
 .intro-text 
     margin-left: 3rem        
-
-.intro-hed
-    font-size 72px
-    color white
-    font-family 'Share Tech Mono', monospace;
-    padding-left 0
-    +mq('bp-4')
-        font-size 12px
-
+    .intro-hed
+        font-size 72px
+        color white
+        font-family 'Share Tech Mono', monospace;
+        padding-left 0
+        @media (max-width: 550px)
+            color white
+            font-size 48px
+            
+        
+    
 .intro-body
     font-size 36px
     color: #fff;
     font-family: 'Share Tech Mono', monospace;
     padding-left 0
+    @media (max-width: 550px)
+        color white
+        font-size 18px
 
 .info
     cursor pointer
@@ -173,6 +190,9 @@
     margin-left 1rem
     padding-left: 3rem;
     padding-right: 5rem;
+    @media (max-width: 550px)
+        padding-left 0
+        padding-right 1rem
 
 
 .mark
@@ -234,6 +254,9 @@
 
 .search-noun
     padding-right 3rem
+    @media (max-width: 550px)
+        padding-right 0
+        padding-left 1rem
 
     &__input
         width 100%
@@ -262,6 +285,8 @@
 
 .choices__item--selectable
     font-size: 48px
+    @media (max-width: 550px)
+        font-size 24px
 
 .search-verb
     width 20rem
@@ -296,17 +321,22 @@
     font-size: 24px
     color white
     font-family: 'Share Tech Mono', monospace;
+    @media (max-width: 550px)
+        font-size 18px  
 
 .nav-bar
     display: flex
     flex-direction: row
-    justify-content: space-between    
+    justify-content: space-between  
+
 
 .separator
     font-size 36px
     padding-top 2rem
     color white
     margin-top 10rem
+    @media (max-width: 550px)
+        font-size 24px  
     
 .faded
     color gray    
@@ -322,6 +352,7 @@
     .shepherd-text
         font-family: 'Share Tech Mono', monospace;
         color: #000
+        max-width: 20rem
 
 .invisible
     visibility: hidden
