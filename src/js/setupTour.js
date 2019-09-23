@@ -15,12 +15,11 @@ function setupTour() {
       element: '.search-verb',
       on: 'bottom',
     },
+    cancelIcon: {
+      enabled: true,
+    },
     classes: 'example-step-extra-class',
     buttons: [
-      {
-        text: 'Close',
-        action: tour.complete,
-      },
       {
         text: 'Next',
         action: tour.next,
@@ -36,10 +35,13 @@ function setupTour() {
       on: 'bottom',
     },
     classes: 'example-step-extra-class',
+    cancelIcon: {
+      enabled: true,
+    },
     buttons: [
       {
-        text: 'Close',
-        action: tour.complete,
+        text: 'Back',
+        action: tour.back,
       },
       {
         text: 'Next',
@@ -55,11 +57,14 @@ function setupTour() {
       element: '.button-container',
       on: 'bottom',
     },
+    cancelIcon: {
+      enabled: true,
+    },
     classes: 'example-step-extra-class',
     buttons: [
       {
-        text: 'Close',
-        action: tour.destroy,
+        text: 'Back',
+        action: tour.back,
       },
       {
         text: 'End',
