@@ -8,6 +8,7 @@
 		"node": ">=8.0.0"
 	},
 	"dependencies": {
+		"choices.js": "^7.0.0",
 		"enter-view": "^2.0.0",
 		"jump.js": "^1.0.2",
 		"lodash.debounce": "4.0.8",

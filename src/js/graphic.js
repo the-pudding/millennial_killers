@@ -7,6 +7,7 @@ import setupSentimentNav from './sentimentNav';
 import isMobile from './utils/is-mobile';
 
 const enterView = require('enter-view');
+const Choices = require('choices.js');
 
 let $content;
 
@@ -168,13 +169,13 @@ function updateTooltip(d, el, $tooltip) {
 
   $tooltip.select('p.tooltip__other-verbs').html(() => {
     const additionalArticles =
-      d.articles.length > 1
-        ? `<span class='noun-selected'>${generateEmoji.generateEmoji()} ${
+      d.articles.length > 1 ?
+      `<span class='noun-selected'>${generateEmoji.generateEmoji()} ${
             d.noun
           }</span> is also found in these verbs: <span class='additional-verbs'>${d.other_verbs.join(
             ', '
-          )}</span>`
-        : ``;
+          )}</span>` :
+      ``;
     return additionalArticles;
   });
 
@@ -234,8 +235,7 @@ function handleMouseLeave() {
 function resize() {
   height = window.innerHeight;
 
-  if (isMobile.any()) {
-  } else {
+  if (isMobile.any()) {} else {
     d3.selectAll('section.intro').style('height', `${height}px`);
   }
 }
@@ -350,7 +350,7 @@ function addArticles(data) {
   $noun = nounJoin
     .append('div')
     .attr('class', 'noun')
-    .text(function(d) {
+    .text(function (d) {
       return ` ${d.noun} ${generateEmoji.generateEmoji()} · `;
     })
     .on('mouseenter', handleMouseEnter)
@@ -385,9 +385,9 @@ function init() {
   resize();
 
   Promise.all([
-    d3.csv('assets/data/verbs_to_include.csv'),
-    d3.json('assets/data/articles_json_v2_small.json'),
-  ])
+      d3.csv('assets/data/verbs_to_include.csv'),
+      d3.json('assets/data/articles_json_v2_small.json'),
+    ])
     .then(data => {
       formattedVerbs = clean.cleanData(data);
       return formattedVerbs;
