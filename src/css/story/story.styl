@@ -1,0 +1,327 @@
+/* CUSTOM STORY STYLE */
+
+.intro
+    background: linear-gradient(180deg, rgba(255, 90, 129, 0.98) 0%,rgba(175, 40, 150, 0.98) 100%)    
+    display: flex;
+    flex-direction: row;
+    height 100%
+
+    &__sidebar        
+        height 100%
+        width  3rem
+        position fixed
+        z-index: 1
+        top 0
+        left 0
+        display flex
+        flex-direction: column
+        justify-content: space-between
+        padding-top 1rem
+        padding-bottom 1rem
+        padding-left 1rem
+
+.enter-arrow
+    stroke: #fff;
+    width: 60%;
+    height: 60%;
+    transform: rotate(90deg) 
+
+    &__container
+        position: absolute;
+        left 50%
+        width: 4rem;
+        height: 4rem;
+        background-color: #000
+        border-radius: 50%;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        cursor pointer
+
+.byline-container
+    position absolute
+    bottom 1rem
+    left 4rem
+
+
+.byline    
+    margin 0
+    font-family: 'Share Tech Mono', monospace;
+    color white
+
+.intro-text 
+    margin-left: 3rem        
+
+.intro-hed
+    font-size 72px
+    color white
+    font-family 'Share Tech Mono', monospace;
+    padding-left 0
+    +mq('bp-4')
+        font-size 12px
+
+.intro-body
+    font-size 36px
+    color: #fff;
+    font-family: 'Share Tech Mono', monospace;
+    padding-left 0
+
+.info
+    cursor pointer
+
+.method 
+    margin-left: 4rem   
+    font-family: 'Share Tech Mono', monospace;
+    
+
+.method
+    &__hed
+        color: #fff;
+
+    &__body   
+        color: #fff; 
+        padding-bottom 2rem
+        border-bottom: 1px white solid
+    
+    &__close
+        background-color: black
+        color white
+        width 5rem
+        text-align: center
+        margin 0 auto
+        font-weight 800
+        cursor pointer
+
+.tooltip
+    position absolute
+    max-width 400px
+    // height 200px
+    background-color: white
+    pointer-events: none
+    z-index: 10
+
+    &__meta
+        font-size 16px    
+        padding-left 1rem
+        padding-right 1rem
+
+    &__hed
+        font-size 24px
+        text-transform: capitalize
+        padding-left 1rem
+        padding-right 1rem
+
+    &__other-verbs
+        font-size 12px
+        padding-left 1rem
+        padding-right 1rem
+        color gray
+    
+    &__progress-bar-background
+        width 100%
+        height 0.5rem
+        background-color: gray
+    
+    &__progress-bar-foreground
+        width 0%
+        height 100%
+        background linear-gradient(rgba(175, 40, 150, 0.98) 0%, rgba(255, 90, 129, 0.98) 100%)
+        max-width 100%
+        // background linear-gradient(toright, 180deg, #34A29E 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(toright, 180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), #FF533D;        
+        // background linear-gradient(to right, #34A29E, #FF533D)
+
+    
+.watermark
+    padding-top 1rem
+    text-align: center
+    width 30%
+    margin 0 auto
+
+#content
+    height 100%
+
+.main-page
+    background #282828
+    height 100% 
+    display: flex
+    flex-direction: row
+
+    &__sidebar        
+        height 100%
+        width  3rem
+        position fixed
+        z-index: 1
+        top 0
+        left 0
+        display flex
+        flex-direction: column
+        justify-content: space-between
+        padding-top 1rem
+        padding-bottom 1rem
+        padding-left 1rem
+    
+    &__content
+        margin-left: 3rem
+
+.content
+    margin-left 1rem
+    padding-left: 3rem;
+    padding-right: 5rem;
+
+
+.mark
+    max-width: 2reml
+
+.button
+    text-align: center
+    max-width: 30%
+    font-size: 18px
+    padding-bottom: 1rem
+    cursor pointer
+
+.mono
+    font-family 'Menlo','Consolas','Monaco','Courier New',monospace
+
+.verb-container
+    padding-top: 2rem
+    position relative
+
+.verb-name
+    color #FF5A81
+    text-transform: uppercase
+
+.verb-selected
+    border-bottom: 1px white solid;
+
+.additional-verbs
+    font-weight 600
+
+.noun
+    color white
+    font-size: 14px
+    cursor pointer
+    display: inline-block
+
+.noun-selected        
+    text-decoration: underline;
+
+.hidden
+    display none
+
+.article-container
+    border-bottom 1px dashed black
+    cursor pointer 
+
+.article-hed    
+    text-transform: capitalize
+    font-size: 24px
+    font-weight: 600
+    font-family: 'Share Tech Mono', monospace;
+
+.article-snippet
+    font-family: $national 
+
+.click-more
+    font-size 12px
+    font-color black
+    background-color gray
+
+.search-noun
+    padding-right 3rem
+
+    &__input
+        width 100%
+        box-sizing border-box
+        border 2px solid #ccc
+        border-radius 4px
+        font-size 16px
+        background-color black
+        background-image url('assets/images/search.png')
+        background-position 10px 10px
+        background-repeat: no-repeat
+        padding 12px 20px 12px 40px
+        font-family: 'Share Tech Mono', monospace;
+        color #ccc
+
+.choices__list--single
+    font-family: 'Share Tech Mono', monospace;
+
+.choices
+    border-bottom: 1px gray solid
+
+    &__inner
+        background-color: #282828    
+        color white
+        border: 0
+
+.choices__item--selectable
+    font-size: 48px
+
+.search-verb
+    width 20rem
+    
+.fixed-search-bar
+    width 100%
+    z-index 100
+    position: fixed
+    background: #282828    
+    width  100%
+    position fixed
+    z-index: 1
+    top 0      
+    padding-left 3rem  
+
+// .fixed-search-bar-on
+//     width: 100%;
+//     position: fixed;
+//     z-index: 100;
+//     top: 0%;
+//     background: #282828;
+
+
+.nav-container
+    display: flex
+    flex-direction: column
+    padding 1rem
+    width 100%
+    background-color #282828
+
+.nav-label    
+    font-size: 24px
+    color white
+    font-family: 'Share Tech Mono', monospace;
+
+.nav-bar
+    display: flex
+    flex-direction: row
+    justify-content: space-between    
+
+.separator
+    font-size 36px
+    padding-top 2rem
+    color white
+    margin-top 10rem
+    
+.faded
+    color gray    
+
+
+
+.shepherd 
+    .shepherd-button 
+        font-family: 'Share Tech Mono', monospace;
+        color: #FFF;
+        background-color: #AF2896;
+
+    .shepherd-text
+        font-family: 'Share Tech Mono', monospace;
+        color: #000
+
+.invisible
+    visibility: hidden
