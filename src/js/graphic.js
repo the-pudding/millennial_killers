@@ -170,7 +170,7 @@ function updateTooltip(d, el, $tooltip) {
   $tooltip.select('p.tooltip__other-verbs').html(() => {
     const additionalArticles =
       d.articles.length > 1 ?
-      `<span class='noun-selected'>${generateEmoji.generateEmoji()} ${
+      `<span class='noun-selected'> ${
             d.noun
           }</span> is also found in these verbs: <span class='additional-verbs'>${d.other_verbs.join(
             ', '
@@ -205,8 +205,6 @@ function updateArticle(d, el, $tooltip) {
 }
 
 function handleMouseEnter(d) {
-  console.log(d);
-  console.log('sup');
   currentArticle = 0;
   const el = this;
   const $sel = d3.select(el);
@@ -351,11 +349,20 @@ function addArticles(data) {
     .append('div')
     .attr('class', 'noun')
     .text(function (d) {
-      return ` ${d.noun} ${generateEmoji.generateEmoji()} · `;
+      return ` ${d.noun} · `;
     })
     .on('mouseenter', handleMouseEnter)
     .on('mouseleave', handleMouseLeave)
-    .on('click', d => window.open(d.articles[0].url));
+    .on('click', d => {
+      if (isMobile.any()) {
+        d3.select('.tooltip')
+          .on('click', window.open(d.articles[0].url))
+      } else {
+        window.open(d.articles[0].url);
+      }
+    });
+
+
 
   const verbDropDown = d3.select('.search-verb__input').node();
 
