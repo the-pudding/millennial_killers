@@ -161,6 +161,7 @@ function updateTooltip(d, el, $tooltip) {
       window.alert(d.articles[0].url);
       window.open(d.articles[0].url);
       d3.event.stopPropagation();
+      console.log('');
     });
   }
 
