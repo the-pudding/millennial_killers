@@ -117,10 +117,14 @@
 
 .tooltip
     position absolute
-    max-width 200px
+    max-width 400px
     // height 200px
     background-color: white
     z-index: 100
+    pointer-events: none
+    @media (max-width: 550px)
+        pointer-events: auto
+        max-width 200px
     
 
     &__meta
@@ -371,3 +375,10 @@
 
 .invisible
     visibility: hidden
+
+#logo
+    fill white    
+
+.info
+    svg 
+        fill white

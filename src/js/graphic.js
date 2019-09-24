@@ -154,10 +154,15 @@ function updateProgressBar(el, elapsed) {
 function updateTooltip(d, el, $tooltip) {
   // show tooltip, load data
   $tooltip.classed('hidden', false);
-  $tooltip.on('mouseenter', () => {
-    window.alert('cool');
-    d3.event.stopPropagation();
-  });
+
+  if (isMobile.any()) {
+    // d3.selectAll('.tip')
+    $tooltip.on('mouseenter', () => {
+      window.alert(d.articles[0].url);
+      window.open(d.articles[0].url);
+      d3.event.stopPropagation();
+    });
+  }
 
   if (d.articles.length === 1) {
     $tooltip
@@ -183,13 +188,13 @@ function updateTooltip(d, el, $tooltip) {
 
   $tooltip.select('p.tooltip__other-verbs').html(() => {
     const additionalArticles =
-      d.other_verbs.length > 1
-        ? `<span class='noun-selected'> ${
+      d.other_verbs.length > 1 ?
+      `<span class='noun-selected'> ${
             d.noun
           }</span> is also found in these verbs: <span class='additional-verbs'>${d.other_verbs.join(
             ', '
-          )}</span>`
-        : ``;
+          )}</span>` :
+      ``;
     return additionalArticles;
   });
 
@@ -226,7 +231,7 @@ function handleMouseEnter(d) {
   const $tooltip = $selVerb.select('.tooltip');
 
   if (isMobile.any()) {
-    $tooltip.on('mousedown', function() {
+    $tooltip.on('mousedown', function () {
       d3.event.stopPropagation();
     });
   }
@@ -253,8 +258,7 @@ function handleMouseLeave() {
 function resize() {
   height = window.innerHeight;
 
-  if (isMobile.any()) {
-  } else {
+  if (isMobile.any()) {} else {
     d3.selectAll('section.intro').style('height', `${height}px`);
   }
 }
@@ -344,21 +348,21 @@ function addArticles(data) {
     .text(d => d.verb);
 
   // tooltip:
-  const $tooltip = $verb.append('div').attr('class', 'tooltip hidden');
+  const $tooltip = $verb.append('div').attr('class', 'tooltip tip hidden');
 
   // tooltip: progress bar
   $progressBar = $tooltip
     .append('div')
-    .attr('class', 'tooltip__progress-bar-background');
+    .attr('class', 'tip tooltip__progress-bar-background');
 
   $progressBar.append('div').attr('class', 'tooltip__progress-bar-foreground');
 
   // tooltip: text sections
-  $tooltip.append('p').attr('class', 'tooltip__meta');
+  $tooltip.append('p').attr('class', 'tip tooltip__meta');
 
-  $tooltip.append('p').attr('class', 'tooltip__hed');
+  $tooltip.append('p').attr('class', 'tip tooltip__hed');
 
-  $tooltip.append('p').attr('class', 'tooltip__other-verbs');
+  $tooltip.append('p').attr('class', 'tip tooltip__other-verbs');
 
   // nouns (bottom-level)
   nounJoin = $verb
@@ -369,7 +373,7 @@ function addArticles(data) {
   $noun = nounJoin
     .append('div')
     .attr('class', 'noun')
-    .text(function(d) {
+    .text(function (d) {
       return ` ${d.noun} · `;
     })
     .on('mouseenter', handleMouseEnter)
@@ -417,9 +421,9 @@ function init() {
   resize();
 
   Promise.all([
-    d3.csv('assets/data/verbs_to_include.csv'),
-    d3.json('assets/data/articles_json_v2_small.json'),
-  ])
+      d3.csv('assets/data/verbs_to_include.csv'),
+      d3.json('assets/data/articles_json_v2_small.json'),
+    ])
     .then(data => {
       formattedVerbs = clean.cleanData(data);
       return formattedVerbs;
