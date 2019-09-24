@@ -117,7 +117,7 @@
 
 .tooltip
     position absolute
-    max-width 400px
+    max-width 200px
     // height 200px
     background-color: white
     pointer-events: none
@@ -127,18 +127,27 @@
         font-size 16px    
         padding-left 1rem
         padding-right 1rem
+        @media (max-width: 550px)
+            font-size 10px
+            margin 0.5rem 0
 
     &__hed
         font-size 24px
         text-transform: capitalize
         padding-left 1rem
         padding-right 1rem
+        @media (max-width: 550px)
+            font-size 14px
+            margin 0.5rem 0
 
     &__other-verbs
         font-size 12px
         padding-left 1rem
         padding-right 1rem
         color gray
+        @media (max-width: 550px)
+            font-size 12px   
+            margin 0.5rem 0     
     
     &__progress-bar-background
         width 100%

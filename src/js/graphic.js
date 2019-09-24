@@ -155,6 +155,17 @@ function updateTooltip(d, el, $tooltip) {
   // show tooltip, load data
   $tooltip.classed('hidden', false);
 
+  console.log(d.articles.length);
+  if (d.articles.length === 1) {
+    $tooltip
+      .select('.tooltip__progress-bar-background')
+      .classed('hidden', true);
+  } else {
+    $tooltip
+      .select('.tooltip__progress-bar-background')
+      .classed('hidden', false);
+  }
+
   $tooltip
     .select('p.tooltip__meta')
     .text(
@@ -169,13 +180,13 @@ function updateTooltip(d, el, $tooltip) {
 
   $tooltip.select('p.tooltip__other-verbs').html(() => {
     const additionalArticles =
-      d.articles.length > 1 ?
-      `<span class='noun-selected'> ${
+      d.other_verbs.length > 1
+        ? `<span class='noun-selected'> ${
             d.noun
           }</span> is also found in these verbs: <span class='additional-verbs'>${d.other_verbs.join(
             ', '
-          )}</span>` :
-      ``;
+          )}</span>`
+        : ``;
     return additionalArticles;
   });
 
@@ -233,7 +244,8 @@ function handleMouseLeave() {
 function resize() {
   height = window.innerHeight;
 
-  if (isMobile.any()) {} else {
+  if (isMobile.any()) {
+  } else {
     d3.selectAll('section.intro').style('height', `${height}px`);
   }
 }
@@ -348,20 +360,17 @@ function addArticles(data) {
   $noun = nounJoin
     .append('div')
     .attr('class', 'noun')
-    .text(function (d) {
+    .text(function(d) {
       return ` ${d.noun} · `;
     })
     .on('mouseenter', handleMouseEnter)
-    .on('mouseleave', handleMouseLeave)
+    .on('mouseleave', handleMouseLeave);
 
   if (isMobile.any()) {
-    $noun.on('click', () => {})
+    $noun.on('click', () => {});
   } else {
-    $noun.on('click', d => window.open(d.articles[0].url))
+    $noun.on('click', d => window.open(d.articles[0].url));
   }
-
-
-
 
   const verbDropDown = d3.select('.search-verb__input').node();
 
@@ -372,7 +381,7 @@ function addArticles(data) {
     })),
   });
 
-  console.log(verbDropDownChoices);
+  console.log(formattedVerbs);
 
   d3.select(verbDropDown).on('change', handleDropDown);
 
@@ -391,9 +400,9 @@ function init() {
   resize();
 
   Promise.all([
-      d3.csv('assets/data/verbs_to_include.csv'),
-      d3.json('assets/data/articles_json_v2_small.json'),
-    ])
+    d3.csv('assets/data/verbs_to_include.csv'),
+    d3.json('assets/data/articles_json_v2_small.json'),
+  ])
     .then(data => {
       formattedVerbs = clean.cleanData(data);
       return formattedVerbs;
