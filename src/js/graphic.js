@@ -353,14 +353,13 @@ function addArticles(data) {
     })
     .on('mouseenter', handleMouseEnter)
     .on('mouseleave', handleMouseLeave)
-    .on('click', d => {
-      if (isMobile.any()) {
-        d3.select('.tooltip')
-          .on('click', window.open(d.articles[0].url))
-      } else {
-        window.open(d.articles[0].url);
-      }
-    });
+
+  if (isMobile.any()) {
+    $noun.on('click', () => {})
+  } else {
+    $noun.on('click', d => window.open(d.articles[0].url))
+  }
+
 
 
 
