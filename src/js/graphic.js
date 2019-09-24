@@ -154,8 +154,11 @@ function updateProgressBar(el, elapsed) {
 function updateTooltip(d, el, $tooltip) {
   // show tooltip, load data
   $tooltip.classed('hidden', false);
+  $tooltip.on('mouseenter', () => {
+    window.alert('cool');
+    d3.event.stopPropagation();
+  });
 
-  console.log(d.articles.length);
   if (d.articles.length === 1) {
     $tooltip
       .select('.tooltip__progress-bar-background')
@@ -221,6 +224,12 @@ function handleMouseEnter(d) {
   const $sel = d3.select(el);
   const $selVerb = d3.select(el.parentNode);
   const $tooltip = $selVerb.select('.tooltip');
+
+  if (isMobile.any()) {
+    $tooltip.on('mousedown', function() {
+      d3.event.stopPropagation();
+    });
+  }
 
   articleNumber = d.articles.length;
 
@@ -367,7 +376,15 @@ function addArticles(data) {
     .on('mouseleave', handleMouseLeave);
 
   if (isMobile.any()) {
-    $noun.on('click', () => {});
+    $noun.on('click', (d, i, n) => {
+      //   const that = n[i];
+      //   console.log(that);
+      //   document.addEventListener('mousemove', logKey);
+      //   function logKey(e) {
+      //     console.log(e.clientX, e.clientY);
+      //   }
+      //   d3.event.stopPropagation();
+    });
   } else {
     $noun.on('click', d => window.open(d.articles[0].url));
   }
