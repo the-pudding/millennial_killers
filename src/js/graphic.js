@@ -193,13 +193,13 @@ function updateTooltip(d, el, $tooltip) {
 
   $tooltip.select('p.tooltip__other-verbs').html(() => {
     const additionalArticles =
-      d.other_verbs.length > 1 ?
-      `<span class='noun-selected'> ${
+      d.other_verbs.length > 1
+        ? `<span class='noun-selected'> ${
             d.noun
           }</span> is also found in these verbs: <span class='additional-verbs'>${d.other_verbs.join(
             ', '
-          )}</span>` :
-      ``;
+          )}</span>`
+        : ``;
     return additionalArticles;
   });
 
@@ -240,7 +240,7 @@ function handleMouseEnter(d) {
   const $tooltip = $selVerb.select('.tooltip');
 
   if (isMobile.any()) {
-    $tooltip.on('mousedown', function () {
+    $tooltip.on('mousedown', function() {
       d3.event.stopPropagation();
     });
   }
@@ -268,7 +268,8 @@ function resize() {
   height = window.innerHeight;
   width = window.innerWidth;
 
-  if (isMobile.any()) {} else {
+  if (isMobile.any()) {
+  } else {
     d3.select('section.intro').style('height', `${height}px`);
   }
 }
@@ -288,7 +289,7 @@ function handleMouseOver(el, noun) {
 
 function checkEnter(e) {
   e = e || event;
-  let txtArea = /textarea/i.test((e.target || e.srcElement).tagName);
+  const txtArea = /textarea/i.test((e.target || e.srcElement).tagName);
   return txtArea || (e.keyCode || e.which || e.charCode || 0) !== 13;
 }
 
@@ -430,6 +431,13 @@ function addArticles(data) {
     mouseX = e.clientX;
     mouseY = e.clientY;
   }
+
+  d3.select('.enter-arrow__container').on('click', () => {
+    setupSentimentNav.scrollTo(
+      d3.select('.separator__positive-high').node(),
+      fixedSearchHeight
+    );
+  });
 }
 
 function setHeightsAndScroll(fixedSearchHeight) {
@@ -440,9 +448,9 @@ function init() {
   resize();
 
   Promise.all([
-      d3.csv('assets/data/verbs_to_include.csv'),
-      d3.json('assets/data/articles_json_v2_small.json'),
-    ])
+    d3.csv('assets/data/verbs_to_include.csv'),
+    d3.json('assets/data/articles_json_v2_small.json'),
+  ])
     .then(data => {
       formattedVerbs = clean.cleanData(data);
       return formattedVerbs;
