@@ -3,6 +3,7 @@
 .intro
     background: linear-gradient(180deg, rgba(255, 90, 129, 0.98) 0%,rgba(175, 40, 150, 0.98) 100%)    
     display: flex;
+    padding-top 1rem
     flex-direction: row;
     height 100%
     @media (max-width: 550px)
@@ -48,6 +49,7 @@
         -ms-flex-align: center;
         align-items: center;
         cursor pointer
+        transform: translate(-50%, 0);
         @media (max-width: 550px)
             display none 
 
@@ -66,6 +68,8 @@
     margin 0
     font-family: 'Share Tech Mono', monospace;
     color white
+    @media (max-width: 1100px)
+        font-size 16px
 
 .intro-text 
     margin-left: 3rem        
@@ -74,6 +78,8 @@
         color white
         font-family 'Share Tech Mono', monospace;
         padding-left 0
+        @media (max-width: 1100px)
+            font-size 64px
         @media (max-width: 550px)
             color white
             font-size 42px
@@ -88,6 +94,8 @@
     @media (max-width: 550px)
         color white
         font-size 18px
+    @media (max-width: 1100px)
+        font-size 24px
 
 .info
     cursor pointer
@@ -354,8 +362,6 @@
 .faded
     color gray    
 
-
-
 .shepherd 
     .shepherd-button 
         font-family: 'Share Tech Mono', monospace;
@@ -382,3 +388,21 @@
 .info
     svg 
         fill white
+
+.choices[data-type*=select-one]:after
+    border-color #f0f0f0 transparent transparent 
+
+.choices__list--dropdown .choices__item
+    font-family: 'Share Tech Mono', monospace;
+
+.masthead
+    position: relative 
+    height 2rem
+    #wordmark
+        top 1rem
+        left 3rem
+        width 100%
+        height 100%
+        margin 0 auto
+        fill #fff
+        

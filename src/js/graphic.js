@@ -1,5 +1,4 @@
 /* global d3 */
-
 import generateEmoji from './generateEmoji';
 import navTour from './setupTour';
 import clean from './cleanData';
@@ -33,11 +32,16 @@ let $verbSelect;
 
 let formattedVerbs;
 let height;
+let width;
 let fixedSearchHeight;
 
 let articleInterval;
 
 let tour;
+const showTour = true;
+
+let mouseX;
+let mouseY;
 
 function setFixedSearchHeight() {
   fixedSearchHeight = d3.select('.fixed-search-bar').node().offsetHeight;
@@ -158,7 +162,7 @@ function updateTooltip(d, el, $tooltip) {
   if (isMobile.any()) {
     // d3.selectAll('.tip')
     $tooltip.on('mouseenter', () => {
-      window.alert(d.articles[0].url);
+      //   window.alert(d.articles[0].url);
       window.open(d.articles[0].url);
       d3.event.stopPropagation();
       console.log('');
@@ -199,10 +203,14 @@ function updateTooltip(d, el, $tooltip) {
     return additionalArticles;
   });
 
-  const x = el.offsetLeft;
+  let x = el.offsetLeft;
   const y = el.offsetTop;
   const toolTipHeight = $tooltip.node().offsetHeight;
+  const toolTipWidth = $tooltip.node().offsetWidth;
 
+  if (mouseX > 0.7 * width) {
+    x -= toolTipWidth;
+  }
   $tooltip.style('left', `${x}px`).style('top', `${y - toolTipHeight - 10}px`);
 }
 
@@ -258,9 +266,10 @@ function handleMouseLeave() {
 
 function resize() {
   height = window.innerHeight;
+  width = window.innerWidth;
 
   if (isMobile.any()) {} else {
-    d3.selectAll('section.intro').style('height', `${height}px`);
+    d3.select('section.intro').style('height', `${height}px`);
   }
 }
 
@@ -275,6 +284,12 @@ function handleMouseOver(el, noun) {
   // .classed('hidden',false)
   // .style("left", (d3.event.pageX) + "px")
   // .style("top", (d3.event.pageY - 28) + "px");
+}
+
+function checkEnter(e) {
+  e = e || event;
+  let txtArea = /textarea/i.test((e.target || e.srcElement).tagName);
+  return txtArea || (e.keyCode || e.which || e.charCode || 0) !== 13;
 }
 
 function handleInputChange() {
@@ -327,9 +342,12 @@ function handleDropDown() {
 
 function addArticles(data) {
   $nounSearch = d3.select('.search-noun__input');
+
   $nounSearch.on('keyup', handleInputChange);
 
-  console.log(data.length);
+  $separators = d3.selectAll('.separator');
+
+  console.log(data);
   $content = d3.select('.content');
 
   // verbs (top-level)
@@ -374,22 +392,15 @@ function addArticles(data) {
   $noun = nounJoin
     .append('div')
     .attr('class', 'noun')
-    .text(function (d) {
-      return ` ${d.noun} · `;
+    .text((d, i) => {
+      const nounLabel = d.verbLength - 1 === i ? ` ${d.noun}` : ` ${d.noun} · `;
+      return nounLabel;
     })
     .on('mouseenter', handleMouseEnter)
     .on('mouseleave', handleMouseLeave);
 
   if (isMobile.any()) {
-    $noun.on('click', (d, i, n) => {
-      //   const that = n[i];
-      //   console.log(that);
-      //   document.addEventListener('mousemove', logKey);
-      //   function logKey(e) {
-      //     console.log(e.clientX, e.clientY);
-      //   }
-      //   d3.event.stopPropagation();
-    });
+    $noun.on('click', (d, i, n) => {});
   } else {
     $noun.on('click', d => window.open(d.articles[0].url));
   }
@@ -403,19 +414,26 @@ function addArticles(data) {
     })),
   });
 
-  console.log(formattedVerbs);
-
   d3.select(verbDropDown).on('change', handleDropDown);
 
   tour = navTour.setupTour();
+
+  d3.select('.info').on('click', () => {
+    d3.select('.method').classed('hidden', false);
+    d3.select('.main-page').classed('hidden', true);
+  });
+
+  document.addEventListener('mousemove', logKey);
+  document.querySelector('.search-noun__input').onkeypress = checkEnter;
+
+  function logKey(e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  }
 }
 
 function setHeightsAndScroll(fixedSearchHeight) {
   setupSentimentNav.setSentimentScroll(tour, fixedSearchHeight);
-  //   console.log({
-  //     separatorHeight,
-  //     fixedSearchHeight,
-  //   });
 }
 
 function init() {

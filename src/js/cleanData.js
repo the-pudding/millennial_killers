@@ -12,6 +12,7 @@ function cleanData(data) {
     nouns: verb.nouns.map(noun => ({
       ...noun,
       nounLevelVerb: verb.verb,
+      verbLength: verb.nouns.length,
     })),
   }));
 
