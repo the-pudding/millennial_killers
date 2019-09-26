@@ -129,7 +129,7 @@ function scrollTo(element, fixedSearchHeight) {
 }
 
 function scrollToTour(element, fixedSearchHeight) {
-  console.log('fire');
+  //   console.log('fire');
   jump(element, {
     duration: 500,
     offset: -fixedSearchHeight,
