@@ -16,14 +16,14 @@ archive:
 client: 
 	npm run depudding
 	
-# aws-assets:
-# 	aws s3 sync dist s3://pudding.cool/year/month/name --delete --cache-control 'max-age=31536000' --exclude 'index.html' --exclude 'main.js'
+aws-assets:
+	aws s3 sync dist s3://pudding.cool/2019/09/millennials --delete --cache-control 'max-age=31536000' --exclude 'index.html' --exclude 'main.js'
 
-# aws-htmljs:
-# 	aws s3 cp dist/index.html s3://pudding.cool/year/month/name/index.html
-# 	aws s3 cp dist/main.js s3://pudding.cool/year/month/name/main.js
+aws-htmljs:
+	aws s3 cp dist/index.html s3://pudding.cool/2019/09/millennials/index.html
+	aws s3 cp dist/main.js s3://pudding.cool/2019/09/millennials/main.js
 
-# aws-cache:
-# 	aws cloudfront create-invalidation --distribution-id E13X38CRR4E04D --paths '/year/month/name*'	
+aws-cache:
+	aws cloudfront create-invalidation --distribution-id E13X38CRR4E04D --paths '/2019/09/millennials*'	
 
-# pudding: aws-assets aws-htmljs aws-cache archive
+pudding: aws-assets aws-htmljs aws-cache archive
