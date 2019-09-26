@@ -1,47 +1,33 @@
 <section class='intro'>
-
+    <div class='masthead'><a href='https://www.pudding.cool'><img inline src='pudding/wordmark.svg'></a></div>
     <div class='intro-text'>
-        <div class='masthead'><a href='https://www.pudding.cool'><img inline src='pudding/wordmark.svg'></a></div>
+
         <p class='intro-hed'>Millennials kill everything</p>
-        <p class='intro-body'>Ok, not really... but as millennials, we’ve seen countless headlines about what we’ve
-            supposedly offed.
-            We’ve killed doorbells 🔔, bar soap, and Applebee’s 🍎 (although we might be proud of that last one).
-            We looked at 40,000 headlines from 2005-2015, and it turns out only XX of them or X% were about what we
-            kill.
-            Let’s explore how the media covers millennials. </p>
-        <div class='enter-arrow__container'>
-            <svg class='enter-arrow' width="24" height="24" fill="none" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" class="feather feather-arrow-right" viewBox="0 0 24 24">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
+        <p class='intro-body'>...OK, not really. But we’ve seen countless stories about what millennials have killed.
+            From napkins to marriage to Applebees, just looking at headlines you’d
+            guess that for the past decade the millennial generation's been on a rampage. But we wanted to dig deeper:
+            how does popular media report on millennials, more broadly? </p>
+        <div class='tour-container'>
+            <div class='enter-arrow__container'>
+                <svg class='enter-arrow' width="24" height="24" fill="none" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="feather feather-arrow-right" viewBox="0 0 24 24">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+
+            </div>
+            <p class='tour-label'>Tap to take the tour!</p>
         </div>
-
-    </div>
-    <div class='method hidden'>
-        <p class='method__hed'>METHOD</p>
-        <p class='method__body'>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin risus quam, vehicula a pellentesque ac,
-            accumsan id augue. Proin vel ultricies nibh. Vestibulum accumsan ante id urna viverra, nec facilisis enim
-            luctus. Curabitur semper imperdiet enim ac consectetur. Morbi nec tincidunt nisl, nec commodo metus. Integer
-            sodales dictum odio, quis tincidunt mi eleifend a. Integer lectus arcu, commodo sit amet urna quis,
-            scelerisque pellentesque elit. Pellentesque efficitur nulla velit, vel interdum dui accumsan at. Cras lorem
-            sapien, finibus eu arcu in, vulputate pharetra augue. Ut felis lorem, imperdiet id eros vitae, posuere
-            feugiat mauris. In euismod risus non felis malesuada, aliquet efficitur neque ultrices.
-            Morbi iaculis, ex quis dapibus placerat, ipsum ipsum convallis justo, sed tincidunt libero justo ac nisl.
-            Praesent eleifend porta ipsum in tincidunt. Donec eu elit fringilla, porttitor turpis et, tincidunt orci.
-            Proin quis luctus velit. Sed egestas metus elit, quis iaculis mi maximus quis. Maecenas egestas ipsum sed
-            diam bibendum, in accumsan est tempus. </p>
-        <p class='method__close'>CLOSE</p>
+        <div class='byline-container'>
+            <p class='byline'>DATA AND STORY BY <a target="_blank"
+                    href="https://pudding.cool/author/alexandra-saizan">ALEXANDRA
+                    SAIZAN</a></p>
+            <p class='byline'> DESIGN + DEVELOPMENT <a href="https://pudding.cool/author/ilia-blinderman/">ILIA
+                    BLINDERMAN</a> AND <a href="https://pudding.cool/author/jan-diehm/">JAN DIEHM</a></p>
+        </div>
     </div>
 
-    <div class='byline-container'>
-        <p class='byline'>DATA AND STORY BY <a target="_blank"
-                href="https://pudding.cool/author/alexandra-saizan">ALEXANDRA
-                SAIZAN</a></p>
-        <p class='byline'> DESIGN + DEVELOPMENT <a href="https://pudding.cool/author/ilia-blinderman/">ILIA
-                BLINDERMAN</a> AND <a href="https://pudding.cool/author/jan-diehm/">JAN DIEHM</a></p>
-    </div>
+
 </section>
 
 </section>
@@ -63,19 +49,54 @@
     </div>
     <div class='main-page__sidebar hidden'>
         <div class='mark'><a href='https://www.pudding.cool'><img inline src='pudding/logo.svg'></a></div>
-        <div class='button-container'>
-            <div class='button button-positive-high'>😁</div>
-            <div class='button button-positive-low'>🙂</div>
-            <div class='button button-neutral'>😐</div>
-            <div class='button button-negative-low'>🙁</div>
-            <div class='button button-negative-high'>😱</div>
-        </div>
         <div class='info'><img inline src='info.svg'></div>
     </div>
 
     <div class='main-page__content mono'>
         <div class='content'>
             <div class='tooltip hidden'></div>
+        </div>
+        <div class='method'>
+            <p class='method__hed'>METHOD</p>
+            <p class='method__body'>
+                We used the Event Registry API to scrape news articles about Millennials. The query filtered on news
+                articles with the word “Millennials”, “millennials”, “Millennial”, or “millennial” in the headline
+                published
+                between June 15, 2015 and June 15, 2019. This query yielded nearly 38,000 articles. We obtained article
+                metadata, including the URL, title, body, and publishing date from the query. Sometimes, multiple news
+                outlets in the same media family publish the same article; removing these duplicates yielded a total of
+                26,565 articles.
+            </p>
+            <p class='method__body'>
+                We used the Spacy Python package to part-of-speech tag the headline text. Part-of-speech tagging
+                identifies
+                each word’s part-of-speech in the sentence (e.g., a noun versus a verb versus an adverb). We filtered on
+                articles headlines in which Millennials perform an action (“Millennials are killing the napkin
+                industry'”,
+                for instance). Narrowing our focus made it easier to identify the focus of their love and/or
+                destruction.
+                Using the newly tagged headlines, we subsetted the main dataset on headlines where “millennials” is the
+                subject noun of the sentence, yielding 12,500 articles. Of these articles, we also removed articles with
+                less than five sentences in the body.
+            </p>
+            <p class='method__body'>
+                The objects you can explore are the noun chunks Spacy identified as the first direct object in the
+                headline.
+                We opted to look at noun chunks instead of just nouns to get a complete picture of the items Millennials
+                are
+                interacting with. Noun chunks include adjectives plus nouns, such as “second home” instead of “home”.
+                This
+                method left us with about 4,000 unique nouns and 2,000 unique verbs.
+            </p>
+            <p class='method__body'>
+                We also computed the average polarity (also called sentiment or valence) among nouns and headlines. We
+                used
+                the Natural Language Toolkit (NLTK) Sentiment Intensity Analyzer to calculate headline polarity. A
+                polarity
+                is a numeric score ranging from -1 to 1 that indicates sentiment. Polarities above zero indicate
+                positive
+                sentiment, below zero indicate negative sentiment, and equaling zero indicate neutral sentiment.
+            </p>
         </div>
     </div>
 

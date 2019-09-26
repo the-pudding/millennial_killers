@@ -1,8 +1,9 @@
 /* global d3 */
+import jump from 'jump.js';
 import generateEmoji from './generateEmoji';
 import navTour from './setupTour';
 import clean from './cleanData';
-import setupSentimentNav from './sentimentNav';
+// import setupSentimentNav from './sentimentNav';
 import isMobile from './utils/is-mobile';
 
 const enterView = require('enter-view');
@@ -38,57 +39,167 @@ let fixedSearchHeight;
 let articleInterval;
 
 let tour;
-const showTour = true;
+let showTour = true;
+const verbScroll = false;
+
+const offsetChange = 0;
+let oldVerb;
+let newVerb;
 
 let mouseX;
 let mouseY;
 
+function simulate(element, eventName) {
+  const options = extend(defaultOptions, arguments[2] || {});
+  let oEvent;
+  let eventType = null;
+
+  for (const name in eventMatchers) {
+    if (eventMatchers[name].test(eventName)) {
+      eventType = name;
+      break;
+    }
+  }
+
+  if (!eventType)
+    throw new SyntaxError(
+      'Only HTMLEvents and MouseEvents interfaces are supported'
+    );
+
+  if (document.createEvent) {
+    oEvent = document.createEvent(eventType);
+    if (eventType == 'HTMLEvents') {
+      oEvent.initEvent(eventName, options.bubbles, options.cancelable);
+    } else {
+      oEvent.initMouseEvent(
+        eventName,
+        options.bubbles,
+        options.cancelable,
+        document.defaultView,
+        options.button,
+        options.pointerX,
+        options.pointerY,
+        options.pointerX,
+        options.pointerY,
+        options.ctrlKey,
+        options.altKey,
+        options.shiftKey,
+        options.metaKey,
+        options.button,
+        element
+      );
+    }
+    element.dispatchEvent(oEvent);
+  } else {
+    options.clientX = options.pointerX;
+    options.clientY = options.pointerY;
+    const evt = document.createEventObject();
+    oEvent = extend(evt, options);
+    element.fireEvent(`on${eventName}`, oEvent);
+  }
+  return element;
+}
+
+function extend(destination, source) {
+  for (const property in source) destination[property] = source[property];
+  return destination;
+}
+
+var eventMatchers = {
+  HTMLEvents: /^(?:load|unload|abort|error|select|change|submit|reset|focus|blur|resize|scroll)$/,
+  MouseEvents: /^(?:click|dblclick|mouse(?:down|up|over|move|out))$/,
+};
+var defaultOptions = {
+  pointerX: 0,
+  pointerY: 0,
+  button: 0,
+  ctrlKey: false,
+  altKey: false,
+  shiftKey: false,
+  metaKey: false,
+  bubbles: true,
+  cancelable: true,
+};
+
+function scrollTo(element, fixedSearchHeight) {
+  jump(element, {
+    duration: 1000,
+    offset: -fixedSearchHeight,
+  });
+}
+
+function scrollToVerbChange(element, fixedSearchHeight, verbValue) {
+  const el = d3.select(`#${verbValue}`).node();
+  jump(el, {
+    duration: 1000,
+    offset: -fixedSearchHeight,
+  });
+
+  d3.selectAll('.verb-name').classed('verb-selected', false);
+  d3.select(`#${verbValue}`).classed('verb-selected', true);
+  d3.select('.choices__item--selectable').text(verbValue);
+}
+
 function setFixedSearchHeight() {
   fixedSearchHeight = d3.select('.fixed-search-bar').node().offsetHeight;
+  d3.select('div.content').style('padding-top', `${fixedSearchHeight}px`);
   return fixedSearchHeight;
 }
 
 function enterViewSetup() {
   enterView({
-    selector: '.verb-container',
+    selector: '.verb-name',
     enter: el => {
-      // el.classList.add('entered');
+      const bodyClassed = d3
+        .select('body')
+        .node()
+        .classList.value.split(' ');
 
-      const thisVerb = d3
-        .select(el)
-        .select('div.verb-name')
-        .attr('id');
+      const activeTour = bodyClassed.includes('shepherd-active');
 
+      if (activeTour) {
+        return;
+      }
+      if (verbScroll) {
+        return;
+      }
+
+      console.log(`offsetChange enterview: ${offsetChange}`);
+
+      const thisVerb = d3.select(el).attr('id');
       d3.selectAll('.verb-name').classed('verb-selected', false);
-
-      d3.select(el)
-        .select('.verb-name')
-        .classed('verb-selected', true);
-
+      d3.select(el).classed('verb-selected', true);
       d3.select('.choices__item--selectable').text(thisVerb);
-
-      fixedSearchHeight = d3.select('.fixed-search-bar').node().offsetHeight;
+      d3.select('.search-verb__input')
+        .select('option')
+        .text(thisVerb);
+      //   fixedSearchHeight = d3.select('.fixed-search-bar').node().offsetHeight;
     },
     exit: el => {
-      const thisVerb = d3
-        .select(el)
-        .select('div.verb-name')
-        .attr('id');
+      const bodyClassed = d3
+        .select('body')
+        .node()
+        .classList.value.split(' ');
 
+      const activeTour = bodyClassed.includes('shepherd-active');
+
+      if (activeTour) {
+        return;
+      }
+      if (verbScroll) {
+        return;
+      }
+      const thisVerb = d3.select(el).attr('id');
       d3.selectAll('.verb-name').classed('verb-selected', false);
-
-      d3.select(el)
-        .select('.verb-name')
-        .classed('verb-selected', true);
-
+      d3.select(el).classed('verb-selected', true);
       d3.select('.choices__item--selectable').text(thisVerb);
-
-      fixedSearchHeight = d3.select('.fixed-search-bar').node().offsetHeight;
+      d3.select('.search-verb__input')
+        .select('option')
+        .text(thisVerb);
+      //   fixedSearchHeight = d3.select('.fixed-search-bar').node().offsetHeight;
     },
-    progress: (el, progress) => {
-      // el.style.opacity = progress;
-    },
-    offset: 0.75, // enter at middle of viewport
+    progress: (el, progress) => {},
+    offset: (height - d3.select('.fixed-search-bar').node().offsetHeight) / height,
     once: false, // trigger just once
   });
 
@@ -98,7 +209,10 @@ function enterViewSetup() {
       d3.select('.main-page__sidebar').classed('hidden', false);
       d3.select('.fixed-search-bar').classed('invisible', false);
 
-      tour.start();
+      if (showTour) {
+        tour.start();
+        showTour = false;
+      }
     },
     exit: el => {
       //   el.classList.remove('entered');
@@ -112,38 +226,6 @@ function enterViewSetup() {
     offset: 0.999, // enter at middle of viewport
     once: false, // trigger just once
   });
-
-  enterView({
-    selector: '.separator',
-    enter: el => {
-      const currentSentiment = el.classList[1].split('__')[1];
-      d3.selectAll('.button').style('font-size', '18px');
-      d3.select(`.button-${currentSentiment}`).style('font-size', '32px');
-    },
-    exit: el => {
-      getPreviousSentiment(el);
-    },
-    progress: (el, progress) => {},
-    offset: 0.75,
-    once: false,
-  });
-}
-
-function getPreviousSentiment(lastSentiment) {
-  const leavingSentiment = lastSentiment.classList[1].split('__')[1];
-  if (leavingSentiment === 'positive-low') {
-    d3.selectAll('.button').style('font-size', '18px');
-    d3.select('.button-positive-high').style('font-size', '32px');
-  } else if (leavingSentiment === 'neutral') {
-    d3.selectAll('.button').style('font-size', '18px');
-    d3.select('.button-positive-low').style('font-size', '32px');
-  } else if (leavingSentiment === 'negative-low') {
-    d3.selectAll('.button').style('font-size', '18px');
-    d3.select('.button-neutral').style('font-size', '32px');
-  } else if (leavingSentiment === 'negative-high') {
-    d3.selectAll('.button').style('font-size', '18px');
-    d3.select('.button-negative-low').style('font-size', '32px');
-  }
 }
 
 function updateProgressBar(el, elapsed) {
@@ -160,13 +242,7 @@ function updateTooltip(d, el, $tooltip) {
   $tooltip.classed('hidden', false);
 
   if (isMobile.any()) {
-    // d3.selectAll('.tip')
-    $tooltip.on('mouseenter', () => {
-      //   window.alert(d.articles[0].url);
-      window.open(d.articles[0].url);
-      d3.event.stopPropagation();
-      console.log('');
-    });
+    $tooltip.on('mouseenter', () => {});
   }
 
   if (d.articles.length === 1) {
@@ -193,13 +269,13 @@ function updateTooltip(d, el, $tooltip) {
 
   $tooltip.select('p.tooltip__other-verbs').html(() => {
     const additionalArticles =
-      d.other_verbs.length > 1
-        ? `<span class='noun-selected'> ${
+      d.other_verbs.length > 1 ?
+      `<span class='noun-selected'> ${
             d.noun
           }</span> is also found in these verbs: <span class='additional-verbs'>${d.other_verbs.join(
             ', '
-          )}</span>`
-        : ``;
+          )}</span>` :
+      ``;
     return additionalArticles;
   });
 
@@ -208,10 +284,20 @@ function updateTooltip(d, el, $tooltip) {
   const toolTipHeight = $tooltip.node().offsetHeight;
   const toolTipWidth = $tooltip.node().offsetWidth;
 
-  if (mouseX > 0.7 * width) {
-    x -= toolTipWidth;
+  if (isMobile.any()) {
+    x = (width - toolTipWidth) / 2;
+
+    $tooltip
+      .style('left', `${x / 2}px`)
+      .style('top', `${y - toolTipHeight - 10}px`);
+  } else {
+    if (mouseX > 0.7 * width) {
+      x -= toolTipWidth;
+    }
+    $tooltip
+      .style('left', `${x}px`)
+      .style('top', `${y - toolTipHeight - 10}px`);
   }
-  $tooltip.style('left', `${x}px`).style('top', `${y - toolTipHeight - 10}px`);
 }
 
 function updateArticle(d, el, $tooltip) {
@@ -240,7 +326,7 @@ function handleMouseEnter(d) {
   const $tooltip = $selVerb.select('.tooltip');
 
   if (isMobile.any()) {
-    $tooltip.on('mousedown', function() {
+    $tooltip.on('mousedown', function () {
       d3.event.stopPropagation();
     });
   }
@@ -260,31 +346,15 @@ function handleMouseLeave() {
   d3.selectAll('.tooltip__progress-bar-foreground').style('width', '0px');
 
   d3.selectAll('.tooltip').classed('hidden', true);
-
-  // $noun.classed('faded',false)
 }
 
 function resize() {
   height = window.innerHeight;
   width = window.innerWidth;
 
-  if (isMobile.any()) {
-  } else {
+  if (isMobile.any()) {} else {
     d3.select('section.intro').style('height', `${height}px`);
   }
-}
-
-function handleMouseOver(el, noun) {
-  console.log(d3.mouse(el));
-
-  // .attr('')
-
-  // let coordinates= d3.mouse(el);
-
-  // d3.select('.tooltip')
-  // .classed('hidden',false)
-  // .style("left", (d3.event.pageX) + "px")
-  // .style("top", (d3.event.pageY - 28) + "px");
 }
 
 function checkEnter(e) {
@@ -337,8 +407,49 @@ function handleInputChange() {
 function handleDropDown() {
   const verbEl = d3.select(this);
   const verbValue = verbEl.text();
+
+  newVerb = verbValue;
+  //   oldVerb = verbValue;
+
+  let newIndex = verbJoin.data().findIndex(s => s.verb === newVerb.trim());
+  const oldIndex = verbJoin.data().findIndex(s => s.verb === oldVerb.trim());
+
+  console.log(`new verb ${newVerb}`);
+  console.log(`old verb ${oldVerb}`);
+  console.log(`new index: ${newIndex}`);
+  console.log(`old index: ${oldIndex}`);
+
+  if (newIndex > oldIndex) {
+    newIndex += 1;
+  } else {}
+  const updatedVerb = verbJoin.data()[newIndex].verb;
+  //   console.log(updatedVerb);
+
   const scrollTarget = d3.select(`.verb-container-${verbValue}`).node();
-  setupSentimentNav.scrollTo(scrollTarget, fixedSearchHeight);
+
+  const order = Promise.resolve();
+
+  order
+    .then(() => {
+      scrollToVerbChange(scrollTarget, fixedSearchHeight, verbValue);
+    })
+    .then(() => {
+      setTimeout(function () {
+        simulate(scrollTarget, 'click');
+      }, 1001);
+
+      //   d3.select('.search-verb__input')
+      //     .select('option')
+      //     .text(verbValue);
+
+      //   const e = document.createEvent('UIEvents');
+      //   e.initUIEvent('click', true, true, window, 1);
+      //   console.log(d3.select(`.verb-container-${verbValue}`));
+
+      //   d3.select(`.verb-container-${verbValue}`)
+      //     .node()
+      //     .dispatchEvent(e);
+    });
 }
 
 function addArticles(data) {
@@ -348,7 +459,6 @@ function addArticles(data) {
 
   $separators = d3.selectAll('.separator');
 
-  console.log(data);
   $content = d3.select('.content');
 
   // verbs (top-level)
@@ -392,7 +502,7 @@ function addArticles(data) {
 
   $noun = nounJoin
     .append('div')
-    .attr('class', 'noun')
+    .attr('class', d => `noun noun-${d.noun.replace(/ /g, '_')}`)
     .text((d, i) => {
       const nounLabel = d.verbLength - 1 === i ? ` ${d.noun}` : ` ${d.noun} · `;
       return nounLabel;
@@ -415,14 +525,14 @@ function addArticles(data) {
     })),
   });
 
-  d3.select(verbDropDown).on('change', handleDropDown);
-
-  tour = navTour.setupTour();
-
-  d3.select('.info').on('click', () => {
-    d3.select('.method').classed('hidden', false);
-    d3.select('.main-page').classed('hidden', true);
+  d3.select('.search-verb').on('click', el => {
+    oldVerb = d3
+      .select('.choices__list--single')
+      .select('.choices__item--selectable')
+      .text();
   });
+
+  d3.select(verbDropDown).on('change', handleDropDown);
 
   document.addEventListener('mousemove', logKey);
   document.querySelector('.search-noun__input').onkeypress = checkEnter;
@@ -432,32 +542,45 @@ function addArticles(data) {
     mouseY = e.clientY;
   }
 
-  d3.select('.enter-arrow__container').on('click', () => {
-    setupSentimentNav.scrollTo(
-      d3.select('.separator__positive-high').node(),
-      fixedSearchHeight
-    );
-  });
-}
+  tour = navTour.setupTour();
 
-function setHeightsAndScroll(fixedSearchHeight) {
-  setupSentimentNav.setSentimentScroll(tour, fixedSearchHeight);
+  //   tour.start();
+
+  d3.select('.enter-arrow__container').on('click', () => {
+    scrollTo(d3.select('.verb-container-abandon').node(), fixedSearchHeight);
+    // tour.start();
+  });
+
+  d3.select('.info').on('click', () => {
+    // scrollTo(d3.select('.verb-container-kill').node(), fixedSearchHeight);
+    tour = navTour.setupTour();
+    tour.start();
+  });
+
+  fixedSearchHeight = d3.select('.fixed-search-bar').node().offsetHeight;
 }
 
 function init() {
   resize();
 
   Promise.all([
-    d3.csv('assets/data/verbs_to_include.csv'),
-    d3.json('assets/data/articles_json_v2_small.json'),
-  ])
+      d3.csv('assets/data/verbs_to_include.csv'),
+      d3.json('assets/data/articles_json_v2_small.json'),
+    ])
     .then(data => {
       formattedVerbs = clean.cleanData(data);
       return formattedVerbs;
     })
     .then(cleanedData => addArticles(cleanedData))
     .then(() => setFixedSearchHeight())
-    .then(fixedSearchHeight => setHeightsAndScroll(fixedSearchHeight))
+    // .then(searchBarHeight => {
+    //   $verb.style('margin-top', (d, i) => {
+    //     if (i === 0) {
+    //       return `${searchBarHeight}px`;
+    //     }
+    //   });
+    // })
+    .then(() => {})
     .then(() => enterViewSetup());
 }
 

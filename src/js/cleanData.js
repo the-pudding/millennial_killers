@@ -16,15 +16,8 @@ function cleanData(data) {
     })),
   }));
 
-  formattedVerbs.forEach(verb => {
-    const result = data[0].filter(function(item) {
-      return item.verb === verb.verb;
-    });
-    verb.sentiment = result[0] !== undefined ? +result[0].sentiment_5 : null;
-  });
-
   formattedVerbs = formattedVerbs.sort(
-    (a, b) => parseFloat(b.sentiment) - parseFloat(a.sentiment)
+    (a, b) => parseFloat(b.verb) - parseFloat(a.verb)
   );
 
   return formattedVerbs;
