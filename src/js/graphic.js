@@ -122,7 +122,6 @@ var defaultOptions = {
 };
 
 function scrollTo(element, fixedSearchHeight) {
-  console.log(element);
   jump(element, {
     duration: 100,
     offset: -fixedSearchHeight * 2,
@@ -419,7 +418,7 @@ function handleInputChange() {
     let numVisibleVerbs;
     if (visibleVerbs.length >= 1) {
       numVisibleVerbs = parseInt(Math.ceil(visibleVerbs.length / 2));
-      console.log(numVisibleVerbs);
+
       const relevantVerb = visibleVerbs[numVisibleVerbs].verb;
 
       const scrollToVerb = d3.select(`.verb-container-${relevantVerb}`).node();
@@ -443,11 +442,6 @@ function handleDropDown() {
 
   let newIndex = verbJoin.data().findIndex(s => s.verb === newVerb.trim());
   const oldIndex = verbJoin.data().findIndex(s => s.verb === oldVerb.trim());
-
-  console.log(`new verb ${newVerb}`);
-  console.log(`old verb ${oldVerb}`);
-  console.log(`new index: ${newIndex}`);
-  console.log(`old index: ${oldIndex}`);
 
   if (newIndex > oldIndex) {
     newIndex += 1;
