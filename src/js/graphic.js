@@ -122,9 +122,10 @@ var defaultOptions = {
 };
 
 function scrollTo(element, fixedSearchHeight) {
+  console.log('fire');
   jump(element, {
     duration: 100,
-    offset: -fixedSearchHeight,
+    offset: -fixedSearchHeight * 2,
   });
 }
 
@@ -369,18 +370,24 @@ function handleInputChange() {
   handleMouseLeave();
 
   if (val == '') {
-    $noun.style('font-size', '14px');
+    $noun.classed('highlight', false);
     $verb.classed('hidden', false);
     $separators.classed('hidden', false);
     $noun.classed('faded', false);
     handleMouseLeave();
   } else {
     $noun
-      .style('font-size', d => {
+      //   .style('font-size', d => {
+      //     if (d.noun.includes(val)) {
+      //       return '48px';
+      //     }
+      //     return '14px';
+      //   })
+      .classed('highlight', d => {
         if (d.noun.includes(val)) {
-          return '48px';
+          return true;
         }
-        return '14px';
+        return false;
       })
       .classed('faded', d => {
         if (d.noun.includes(val)) {
@@ -389,7 +396,7 @@ function handleInputChange() {
         return true;
       });
 
-    $separators.classed('hidden', true);
+    // $separators.classed('hidden', true);
 
     $verb.classed('hidden', d => {
       handleMouseLeave();
@@ -399,6 +406,19 @@ function handleInputChange() {
       }
       return true;
     });
+
+    const visibleVerbs = d3.selectAll('div.verb-container:not(.hidden)').data();
+
+    if (visibleVerbs.length >= 1) {
+      const relevantVerb = visibleVerbs[1].verb;
+
+      const scrollToVerb = d3.select(`.verb-container-${relevantVerb}`).node();
+      scrollTo(scrollToVerb, fixedSearchHeight);
+    } else {
+      //   console.log('none');
+    }
+
+    // scrollTo(d3.select('.content').node(), fixedSearchHeight);
   }
 
   // const start = $input.attr('data-start');
@@ -505,7 +525,8 @@ function addArticles(data) {
     .append('div')
     .attr('class', d => `noun noun-${d.noun.replace(/ /g, '_')}`)
     .text((d, i) => {
-      const nounLabel = d.verbLength - 1 === i ? ` ${d.noun}` : ` ${d.noun} · `;
+      const space = '&nbsp;';
+      const nounLabel = d.verbLength - 1 === i ? `${d.noun}` : ` ${d.noun} · `;
       return nounLabel;
     })
     .on('mouseenter', handleMouseEnter)
@@ -548,6 +569,7 @@ function addArticles(data) {
   //   tour.start();
 
   d3.select('.enter-arrow__container').on('click', () => {
+    // tour = navTour.setupTour();
     scrollTo(d3.select('.verb-container-abandon').node(), fixedSearchHeight);
     // tour.start();
   });

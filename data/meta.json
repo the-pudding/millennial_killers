@@ -4,13 +4,13 @@
   "site": "https://pudding.cool",
   "siteName": "The Pudding",
   "url": "https://pudding.cool/2019/09/millennials/",
-  "keywords": "tk",
+  "keywords": "millennials media",
   "imgFacebook": "https://pudding.cool/2019/09/millennials/assets/social/social-facebook.jpg",
   "imgTwitter": "https://pudding.cool/2019/09/millennials/assets/social/social-twitter.jpg",
   "author": {
-    "name": "The Pudding",
-    "url": "https://pudding.cool/author/the-pudding-team",
-    "twitterHandle": "@puddingviz"
+    "name": "Alexandra Saizan",
+    "url": "https://pudding.cool/author/alexandra-saizan",
+    "twitterHandle": "@alliesaizan"
   },
   "analytics": "UA-90567923-1",
   "lorem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mollis neque sit amet sollicitudin vehicula. Maecenas fringilla mi non lacus mattis elementum. Curabitur dignissim faucibus justo."

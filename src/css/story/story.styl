@@ -26,6 +26,8 @@
         padding-top 1rem
         padding-bottom 1rem
         padding-left 1rem
+        @media (max-width: 550px)
+            width  1.5rem
 
 .enter-arrow
     stroke: #fff;
@@ -49,13 +51,16 @@
         align-items: center;
         cursor pointer
         margin 0 auto
-        @media (max-width: 550px)
+        @media (max-height: 700px)
+            width: 2.5rem;
+            height: 2.5rem;
             // display none 
 
 .byline-container
     // position absolute
     bottom 1rem
     left 4rem
+    text-align: center
     @media (max-width: 550px)
         position relative
         margin-top 5rem
@@ -67,10 +72,13 @@
     margin 0
     font-family: 'Share Tech Mono', monospace;
     color white    
+    font-size 14px
     @media (max-width: 1250px)
         font-size 14px
     @media (max-width: 550px)
         font-size 12px    
+    @media(max-height:700px)
+        font-size: 14px    
 
     a
         color white
@@ -81,17 +89,26 @@
     // margin-left: 3rem        
     .intro-hed
         text-align: center
-        font-size 96px
+        font-size 72px
         color white
         font-family 'Share Tech Mono', monospace;
         padding-left 0
         padding-top 4rem
-        padding-bottom 4rem
-        @media (max-width: 1250px)
-            font-size 64px
+        padding-bottom 4rem    
+        margin-top 0
+        margin-bottom 0
+        @media (max-width: 1350px)
+            font-size 48px        
         @media (max-width: 700px)
             color white
             font-size 42px
+            padding-top 2rem
+            padding-bottom 2rem
+        @media(max-height:750px)
+            font-size 42px
+            padding-top 2rem
+            padding-bottom 2rem
+
             
         
     
@@ -105,6 +122,11 @@
     @media (max-width: 700px)
         color white
         font-size 18px
+    @media (max-height:700px)
+        font-size 18px
+    // @media (max-width:1800px) and (max-height:1100px)
+    //     padding-top 4rem
+    //     padding-bottom 4rem
 
 
 .info
@@ -222,6 +244,8 @@
     
     &__content
         margin-left: 3rem
+        @media (max-width: 550px)
+            margin-left: 1.5rem
 
 .content        
     padding-right: 3rem;    
@@ -231,7 +255,10 @@
 
 
 .mark
-    max-width: 2reml
+    max-width: 2rem
+    @media (max-width: 550px)
+        max-width: 1rem
+
 
 .button
     text-align: center
@@ -263,6 +290,9 @@
     font-size: 14px
     cursor pointer
     display: inline-block
+    
+// .noun:nth-child(n+2)
+    // padding-left 0.5rem
 
 .noun-selected        
     text-decoration: underline;
@@ -291,7 +321,7 @@
 .search-noun
     padding-right 3rem
     @media (max-width: 550px)
-        padding-right 0
+        padding-right 1rem
         padding-left 1rem
 
     &__input
@@ -337,6 +367,8 @@
     z-index: 1
     top 0      
     padding-left 3rem  
+    @media (max-width:550px)
+        padding-left: 1.5rem;
 
 // .fixed-search-bar-on
 //     width: 100%;
@@ -398,7 +430,8 @@
     visibility: hidden
 
 #logo
-    fill white    
+    fill white  
+    max-width: 100%  
 
 .info
     display: none
@@ -455,3 +488,30 @@
     font-family: 'Share Tech Mono', monospace;
     color white
     text-align center
+
+.highlight
+    background-color: rgba(175, 40, 150, 0.97)     
+    color: white;
+
+
+
+// footer.pudding-footer .footer-recirc .article__headline
+//     font-family: 'Share Tech Mono', monospace;
+
+// footer.pudding-footer .footer-social
+//     font-family: 'Share Tech Mono', monospace;
+
+// footer.pudding-footer .footer-social__preach span    
+//     font-family: 'Share Tech Mono', monospace;
+
+// .footer-company__description
+//     font-family: 'Share Tech Mono', monospace;
+
+// .footer-company__trademark
+//     font-family: 'Share Tech Mono', monospace;
+
+// .footer-company__cta-list  
+//     li
+//         a
+//             p
+//                 font-family: 'Share Tech Mono', monospace;

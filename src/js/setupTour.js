@@ -53,7 +53,8 @@ function setupTour() {
         .text(currentVerbText);
     },
     id: 'tour-step-01',
-    text: 'Here is a list of everything millennials have killed, according to the media.',
+    text:
+      'Here is a list of everything millennials have killed, according to the media.',
     attachTo: {
       element: '#kill',
       on: 'top',
@@ -62,10 +63,12 @@ function setupTour() {
       enabled: true,
     },
     classes: 'example-step-extra-class',
-    buttons: [{
-      text: 'Next',
-      action: tour.next,
-    }, ],
+    buttons: [
+      {
+        text: 'Next',
+        action: tour.next,
+      },
+    ],
   });
 
   tour.addStep({
@@ -87,7 +90,8 @@ function setupTour() {
         .select('option')
         .text(currentVerbText);
     },
-    text: 'This includes everything from American cheese slices (🧀⚰️) to your favorite Christmas traditions.',
+    text:
+      'This includes everything from American cheese slices (🧀⚰️) to your favorite Christmas traditions.',
     attachTo: {
       element: '.verb-container-kill',
       on: 'bottom',
@@ -96,10 +100,11 @@ function setupTour() {
       enabled: true,
     },
     classes: 'example-step-extra-class',
-    buttons: [{
-        text: 'Back',
-        action: tour.back,
-      },
+    buttons: [
+      //   {
+      //     text: 'Back',
+      //     action: tour.back,
+      //   },
       {
         text: 'Next',
         action: tour.next,
@@ -128,7 +133,8 @@ function setupTour() {
         .select('option')
         .text(currentVerbText);
     },
-    text: 'In fact, there are 85 things that our text analysis has found millennials may be killing.',
+    text:
+      'In fact, there are 85 things that our text analysis has found millennials may be killing.',
     attachTo: {
       element: '.verb-container-kill',
       on: 'top',
@@ -137,10 +143,11 @@ function setupTour() {
       enabled: true,
     },
     classes: 'example-step-extra-class',
-    buttons: [{
-        text: 'Back',
-        action: tour.back,
-      },
+    buttons: [
+      //   {
+      //     text: 'Back',
+      //     action: tour.back,
+      //   },
       {
         text: 'Next',
         action: tour.next,
@@ -151,19 +158,21 @@ function setupTour() {
   tour.addStep({
     id: 'tour-step-04',
     scrollTo: true,
-    text: "Still, we're not all negative. According to the media, there are certain things we absolutely crave, like human financial advisers, adventure, and cold coffee ",
+    text:
+      'Still, it isn’t all negative. According to the media, there are certain things millennials absolutely crave, like human financial advisers, adventure, and cold coffee.',
     attachTo: {
       element: '.verb-container-crave',
-      on: 'top',
+      on: 'bottom',
     },
     cancelIcon: {
       enabled: true,
     },
     classes: 'example-step-extra-class',
-    buttons: [{
-        text: 'Back',
-        action: tour.back,
-      },
+    buttons: [
+      //   {
+      //     text: 'Back',
+      //     action: tour.back,
+      //   },
       {
         text: 'Next',
         action: tour.next,
@@ -174,7 +183,8 @@ function setupTour() {
   tour.addStep({
     id: 'tour-step-05',
     scrollTo: false,
-    text: 'You can search for things millennials supposedly do here. We recommend "love," "blame," and "drink."',
+    text:
+      'You can search for things millennials supposedly do here. We recommend "love," "blame," and "drink."',
     attachTo: {
       element: '.search-verb',
       on: 'bottom',
@@ -183,10 +193,11 @@ function setupTour() {
       enabled: true,
     },
     classes: 'example-step-extra-class',
-    buttons: [{
-        text: 'Back',
-        action: tour.back,
-      },
+    buttons: [
+      //   {
+      //     text: 'Back',
+      //     action: tour.back,
+      //   },
       {
         text: 'Next',
         action: tour.next,
@@ -197,19 +208,21 @@ function setupTour() {
   tour.addStep({
     id: 'tour-step-06',
     scrollTo: false,
-    text: "You can search for the objects of millenials's actions here (e.g., 🥑).",
+    text:
+      "You can search for the objects of millenials's actions here (e.g., 🥑).",
     attachTo: {
       element: '.search-noun__input',
-      on: 'bottom',
+      on: 'right',
     },
     classes: 'example-step-extra-class',
     cancelIcon: {
       enabled: true,
     },
-    buttons: [{
-        text: 'Back',
-        action: tour.back,
-      },
+    buttons: [
+      //   {
+      //     text: 'Back',
+      //     action: tour.back,
+      //   },
       {
         text: 'End',
         action: tour.complete,
