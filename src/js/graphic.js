@@ -164,8 +164,6 @@ function enterViewSetup() {
         return;
       }
 
-      console.log(`offsetChange enterview: ${offsetChange}`);
-
       const thisVerb = d3.select(el).attr('id');
       d3.selectAll('.verb-name').classed('verb-selected', false);
       d3.select(el).classed('verb-selected', true);
