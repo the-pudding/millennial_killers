@@ -122,10 +122,18 @@ var defaultOptions = {
 };
 
 function scrollTo(element, fixedSearchHeight) {
-  console.log('fire');
+  console.log(element);
   jump(element, {
     duration: 100,
     offset: -fixedSearchHeight * 2,
+  });
+}
+
+function scrollToTour(element, fixedSearchHeight) {
+  console.log('fire');
+  jump(element, {
+    duration: 500,
+    offset: -fixedSearchHeight,
   });
 }
 
@@ -408,9 +416,11 @@ function handleInputChange() {
     });
 
     const visibleVerbs = d3.selectAll('div.verb-container:not(.hidden)').data();
-
+    let numVisibleVerbs;
     if (visibleVerbs.length >= 1) {
-      const relevantVerb = visibleVerbs[1].verb;
+      numVisibleVerbs = parseInt(Math.ceil(visibleVerbs.length / 2));
+      console.log(numVisibleVerbs);
+      const relevantVerb = visibleVerbs[numVisibleVerbs].verb;
 
       const scrollToVerb = d3.select(`.verb-container-${relevantVerb}`).node();
       scrollTo(scrollToVerb, fixedSearchHeight);
@@ -570,7 +580,10 @@ function addArticles(data) {
 
   d3.select('.enter-arrow__container').on('click', () => {
     // tour = navTour.setupTour();
-    scrollTo(d3.select('.verb-container-abandon').node(), fixedSearchHeight);
+    scrollToTour(
+      d3.select('.verb-container-abandon').node(),
+      fixedSearchHeight
+    );
     // tour.start();
   });
 
