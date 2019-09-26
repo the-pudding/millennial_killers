@@ -10,7 +10,7 @@
     height 100%
     @media (max-width: 550px)
         margin 0rem 0rem 0rem 0rem
-        padding 1rem 3rem 3rem 3rem
+        padding 4rem 3rem 3rem 3rem
         display: block;
         
     &__sidebar        
@@ -66,11 +66,12 @@
 .byline    
     margin 0
     font-family: 'Share Tech Mono', monospace;
-    color white
+    color white    
+    @media (max-width: 1250px)
+        font-size 14px
     @media (max-width: 550px)
-        font-size 14px    
-    @media (max-width: 1100px)
-        font-size 12px
+        font-size 12px    
+
     a
         color white
         border-bottom: 1px solid #fff
@@ -80,30 +81,31 @@
     // margin-left: 3rem        
     .intro-hed
         text-align: center
-        font-size 72px
+        font-size 96px
         color white
         font-family 'Share Tech Mono', monospace;
         padding-left 0
-        @media (max-width: 1100px)
+        padding-top 4rem
+        padding-bottom 4rem
+        @media (max-width: 1250px)
             font-size 64px
-        @media (max-width: 650px)
-            font-size 48px    
-        @media (max-width: 550px)
+        @media (max-width: 700px)
             color white
             font-size 42px
             
         
     
 .intro-body
-    font-size 36px
+    font-size 24px
     color: #fff;
     font-family: 'Share Tech Mono', monospace;
     padding-left 0
-    @media (max-width: 550px)
+    @media (max-width: 1250px)
+        font-size 24px
+    @media (max-width: 700px)
         color white
         font-size 18px
-    @media (max-width: 1100px)
-        font-size 24px
+
 
 .info
     cursor pointer
@@ -409,57 +411,47 @@
 .choices__list--dropdown .choices__item
     font-family: 'Share Tech Mono', monospace;
 
-
 .masthead
+    z-index: 1000;
     position: absolute;
-    top: 1rem;
-    left: 50%;
-    display: block;
-    max-width: 10%;
-    transform: translate(-50%,0);
-    @media(max-width 550px)
-        position: relative 
-        height 2rem
+    top: 0;
+    left: 0;
+    width: 100%;
+    a
+        display: block;
+        border: none;
+        max-width: 9rem;
+        margin: 1rem auto;        
 
     #wordmark
+        fill: #fffaf0;
+        fill-opacity: .8;
         display: block;
-        fill: white;
-        height 2rem
-        @media(max-width 550px)
-            width 100%
-            height 100%
-            margin 0 auto
-            fill #fff
-            display: block
-
-.tour-label
-    font-family: 'Share Tech Mono', monospace;
-    color white
-    text-align center
+        width: 100%;
 
 // .masthead
-//     position absolute 
-//     height 2rem    
-//     top 5%
-//     left 50%
-//     transform: translate(-50%,0)
+//     position: absolute;
+//     top: 1rem;
+//     left: 50%;
+//     display: block;
+//     max-width: 10%;
+//     transform: translate(-50%,0);
 //     @media(max-width 550px)
-//             position: relative 
-//             height 2rem    
-//     a
-//         border-bottom none;
-//     #wordmark
-//         height 3rem
-//         width 10rem
-//         position: absolute
- 
-//         // transform: translate(-50%,0)
+//         position: relative 
+//         height 2rem
 
+//     #wordmark
+//         display: block;
+//         fill: white;
+//         height 2rem
 //         @media(max-width 550px)
 //             width 100%
 //             height 100%
 //             margin 0 auto
 //             fill #fff
 //             display: block
-        
-        
+
+.tour-label
+    font-family: 'Share Tech Mono', monospace;
+    color white
+    text-align center

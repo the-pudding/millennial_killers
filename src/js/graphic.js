@@ -123,7 +123,7 @@ var defaultOptions = {
 
 function scrollTo(element, fixedSearchHeight) {
   jump(element, {
-    duration: 1000,
+    duration: 100,
     offset: -fixedSearchHeight,
   });
 }
@@ -199,7 +199,8 @@ function enterViewSetup() {
       //   fixedSearchHeight = d3.select('.fixed-search-bar').node().offsetHeight;
     },
     progress: (el, progress) => {},
-    offset: (height - d3.select('.fixed-search-bar').node().offsetHeight) / height,
+    offset:
+      (height - d3.select('.fixed-search-bar').node().offsetHeight) / height,
     once: false, // trigger just once
   });
 
@@ -269,13 +270,13 @@ function updateTooltip(d, el, $tooltip) {
 
   $tooltip.select('p.tooltip__other-verbs').html(() => {
     const additionalArticles =
-      d.other_verbs.length > 1 ?
-      `<span class='noun-selected'> ${
+      d.other_verbs.length > 1
+        ? `<span class='noun-selected'> ${
             d.noun
           }</span> is also found in these verbs: <span class='additional-verbs'>${d.other_verbs.join(
             ', '
-          )}</span>` :
-      ``;
+          )}</span>`
+        : ``;
     return additionalArticles;
   });
 
@@ -326,7 +327,7 @@ function handleMouseEnter(d) {
   const $tooltip = $selVerb.select('.tooltip');
 
   if (isMobile.any()) {
-    $tooltip.on('mousedown', function () {
+    $tooltip.on('mousedown', function() {
       d3.event.stopPropagation();
     });
   }
@@ -352,7 +353,8 @@ function resize() {
   height = window.innerHeight;
   width = window.innerWidth;
 
-  if (isMobile.any()) {} else {
+  if (isMobile.any()) {
+  } else {
     d3.select('section.intro').style('height', `${height}px`);
   }
 }
@@ -421,7 +423,8 @@ function handleDropDown() {
 
   if (newIndex > oldIndex) {
     newIndex += 1;
-  } else {}
+  } else {
+  }
   const updatedVerb = verbJoin.data()[newIndex].verb;
   //   console.log(updatedVerb);
 
@@ -434,7 +437,7 @@ function handleDropDown() {
       scrollToVerbChange(scrollTarget, fixedSearchHeight, verbValue);
     })
     .then(() => {
-      setTimeout(function () {
+      setTimeout(function() {
         simulate(scrollTarget, 'click');
       }, 1001);
 
@@ -564,9 +567,9 @@ function init() {
   resize();
 
   Promise.all([
-      d3.csv('assets/data/verbs_to_include.csv'),
-      d3.json('assets/data/articles_json_v2_small.json'),
-    ])
+    d3.csv('assets/data/verbs_to_include.csv'),
+    d3.json('assets/data/articles_json_v2_small.json'),
+  ])
     .then(data => {
       formattedVerbs = clean.cleanData(data);
       return formattedVerbs;
