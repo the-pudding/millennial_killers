@@ -3,7 +3,7 @@ import jump from 'jump.js';
 import generateEmoji from './generateEmoji';
 import navTour from './setupTour';
 import clean from './cleanData';
-// import setupSentimentNav from './sentimentNav';
+import simulate from './simulate';
 import isMobile from './utils/is-mobile';
 
 const enterView = require('enter-view');
@@ -13,23 +13,18 @@ let $content;
 
 let verbJoin;
 let nounJoin;
-let articlesJoin;
 
 let $verb;
 let $noun;
-let $articles;
 let $separators;
 
 let $progressBar;
-let backgroundBarWidthPx;
-let barWidthPx;
 let barUpdater;
 
 let articleNumber;
 let currentArticle = 0;
 
 let $nounSearch;
-let $verbSelect;
 
 let formattedVerbs;
 let height;
@@ -42,84 +37,11 @@ let tour;
 let showTour = true;
 const verbScroll = false;
 
-const offsetChange = 0;
 let oldVerb;
 let newVerb;
 
 let mouseX;
 let mouseY;
-
-function simulate(element, eventName) {
-  const options = extend(defaultOptions, arguments[2] || {});
-  let oEvent;
-  let eventType = null;
-
-  for (const name in eventMatchers) {
-    if (eventMatchers[name].test(eventName)) {
-      eventType = name;
-      break;
-    }
-  }
-
-  if (!eventType)
-    throw new SyntaxError(
-      'Only HTMLEvents and MouseEvents interfaces are supported'
-    );
-
-  if (document.createEvent) {
-    oEvent = document.createEvent(eventType);
-    if (eventType == 'HTMLEvents') {
-      oEvent.initEvent(eventName, options.bubbles, options.cancelable);
-    } else {
-      oEvent.initMouseEvent(
-        eventName,
-        options.bubbles,
-        options.cancelable,
-        document.defaultView,
-        options.button,
-        options.pointerX,
-        options.pointerY,
-        options.pointerX,
-        options.pointerY,
-        options.ctrlKey,
-        options.altKey,
-        options.shiftKey,
-        options.metaKey,
-        options.button,
-        element
-      );
-    }
-    element.dispatchEvent(oEvent);
-  } else {
-    options.clientX = options.pointerX;
-    options.clientY = options.pointerY;
-    const evt = document.createEventObject();
-    oEvent = extend(evt, options);
-    element.fireEvent(`on${eventName}`, oEvent);
-  }
-  return element;
-}
-
-function extend(destination, source) {
-  for (const property in source) destination[property] = source[property];
-  return destination;
-}
-
-var eventMatchers = {
-  HTMLEvents: /^(?:load|unload|abort|error|select|change|submit|reset|focus|blur|resize|scroll)$/,
-  MouseEvents: /^(?:click|dblclick|mouse(?:down|up|over|move|out))$/,
-};
-var defaultOptions = {
-  pointerX: 0,
-  pointerY: 0,
-  button: 0,
-  ctrlKey: false,
-  altKey: false,
-  shiftKey: false,
-  metaKey: false,
-  bubbles: true,
-  cancelable: true,
-};
 
 function scrollTo(element, fixedSearchHeight) {
   jump(element, {
@@ -376,7 +298,7 @@ function handleInputChange() {
   const val = this.value.toLowerCase();
   handleMouseLeave();
 
-  if (val == '') {
+  if (val === '') {
     $noun.classed('highlight', false);
     $verb.classed('hidden', false);
     $separators.classed('hidden', false);
@@ -384,12 +306,6 @@ function handleInputChange() {
     handleMouseLeave();
   } else {
     $noun
-      //   .style('font-size', d => {
-      //     if (d.noun.includes(val)) {
-      //       return '48px';
-      //     }
-      //     return '14px';
-      //   })
       .classed('highlight', d => {
         if (d.noun.includes(val)) {
           return true;
@@ -460,7 +376,7 @@ function handleDropDown() {
     })
     .then(() => {
       setTimeout(function() {
-        simulate(scrollTarget, 'click');
+        simulate.simulate(scrollTarget, 'click');
       }, 1001);
 
       //   d3.select('.search-verb__input')
@@ -570,19 +486,14 @@ function addArticles(data) {
 
   tour = navTour.setupTour();
 
-  //   tour.start();
-
   d3.select('.enter-arrow__container').on('click', () => {
-    // tour = navTour.setupTour();
     scrollToTour(
       d3.select('.verb-container-abandon').node(),
       fixedSearchHeight
     );
-    // tour.start();
   });
 
   d3.select('.info').on('click', () => {
-    // scrollTo(d3.select('.verb-container-kill').node(), fixedSearchHeight);
     tour = navTour.setupTour();
     tour.start();
   });
@@ -603,14 +514,6 @@ function init() {
     })
     .then(cleanedData => addArticles(cleanedData))
     .then(() => setFixedSearchHeight())
-    // .then(searchBarHeight => {
-    //   $verb.style('margin-top', (d, i) => {
-    //     if (i === 0) {
-    //       return `${searchBarHeight}px`;
-    //     }
-    //   });
-    // })
-    .then(() => {})
     .then(() => enterViewSetup());
 }
 
