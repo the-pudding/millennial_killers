@@ -1,6 +1,5 @@
 /* global d3 */
 import jump from 'jump.js';
-import generateEmoji from './generateEmoji';
 import navTour from './setupTour';
 import clean from './cleanData';
 import simulate from './simulate';
@@ -378,18 +377,6 @@ function handleDropDown() {
       setTimeout(function() {
         simulate.simulate(scrollTarget, 'click');
       }, 1001);
-
-      //   d3.select('.search-verb__input')
-      //     .select('option')
-      //     .text(verbValue);
-
-      //   const e = document.createEvent('UIEvents');
-      //   e.initUIEvent('click', true, true, window, 1);
-      //   console.log(d3.select(`.verb-container-${verbValue}`));
-
-      //   d3.select(`.verb-container-${verbValue}`)
-      //     .node()
-      //     .dispatchEvent(e);
     });
 }
 
@@ -475,6 +462,10 @@ function addArticles(data) {
   });
 
   d3.select(verbDropDown).on('change', handleDropDown);
+
+  d3.select('.choices__inner')
+    .select('.search-verb__input')
+    .style('display', 'none');
 
   document.addEventListener('mousemove', logKey);
   document.querySelector('.search-noun__input').onkeypress = checkEnter;

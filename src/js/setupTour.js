@@ -25,7 +25,7 @@ function setupTour() {
             .select('option')
             .text(element.id);
         } else if (relevantVerbs.includes(currentVerbText)) {
-          console.log(currentVerbText);
+          //   console.log(currentVerbText);
           d3.select('.choices__item--selectable').text(currentVerbText);
           d3.select('.search-verb__input')
             .select('option')
@@ -132,6 +132,8 @@ function setupTour() {
       d3.select('.search-verb__input')
         .select('option')
         .text(currentVerbText);
+
+      //   d3.select('[data-id="1"]').text('kill');
     },
     text:
       'In fact, there are 85 things that our text analysis has found millennials may be killing.',
